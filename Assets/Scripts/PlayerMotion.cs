@@ -4,20 +4,25 @@ using UnityEngine;
 
 public class PlayerMotion : MonoBehaviour
 {
-    private float speed = 3,angularSpeed = 25;
+    private float speed = 3, angularSpeed = 25;
     private CharacterController controller;
-    private float rotationAboutY = 0,rotationAboutX = 0;
+    private float rotationAboutY = 0, rotationAboutX = 0;
+
     public GameObject camera; // publics must be initialized in Unity
+
+    private AudioSource stepSound;
+
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        stepSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        float dx, dy=-1/*kind of a gravity*/, dz;
+        float dx, dy = -1 /*kind of a gravity*/, dz;
 
         // rotation about Y
         rotationAboutY += Input.GetAxis("Mouse X") * angularSpeed * Time.deltaTime;
@@ -34,9 +39,14 @@ public class PlayerMotion : MonoBehaviour
         dx = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
 
         Vector3 motion = new Vector3(dx, dy, dz); // in Local coordinates
-        motion = transform.TransformDirection(motion);// change to Global coordinates
-        controller.Move(motion);//in Global coordinates
+        motion = transform.TransformDirection(motion); // change to Global coordinates
+        controller.Move(motion); //in Global coordinates
 
+        if (dz < -0.1 || dz > 0.1 || dx < 0.1 || dx > 0.1)
+        {
+            if (!stepSound.isPlaying)
+                stepSound.Play();
+        }
         // simple motion
 //        transform.Translate(new Vector3(dx, dy, dz));
         // simple motion forward
