@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMotion : MonoBehaviour
 {
-    private float speed = 3, angularSpeed = 25;
+    private float speed = 3, angularSpeed = 200;
     private CharacterController controller;
     private float rotationAboutY = 0, rotationAboutX = 0;
 
@@ -42,7 +42,7 @@ public class PlayerMotion : MonoBehaviour
         motion = transform.TransformDirection(motion); // change to Global coordinates
         controller.Move(motion); //in Global coordinates
 
-        if (dz < -0.1 || dz > 0.1 || dx < 0.1 || dx > 0.1)
+        if (dz < 0 || dz > 0 || dx < 0 || dx > 0)
         {
             if (!stepSound.isPlaying)
                 stepSound.Play();
