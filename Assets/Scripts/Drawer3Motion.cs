@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Drawer3Motion : MonoBehaviour
 {
     public Animator animator;
-    public GameObject camera;
+    public GameObject MainCam;
     public GameObject seeThroughCrossHair;
     public GameObject touchCrossHair;
     private bool isDrawerOpened = false, isFocusOn = false;
@@ -22,7 +22,7 @@ public class Drawer3Motion : MonoBehaviour
     {
         RaycastHit hit;
         //check what object is in our focus
-        if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit))
+        if (Physics.Raycast(MainCam.transform.position, MainCam.transform.forward, out hit))
         {
             if (hit.transform.gameObject != null && hit.distance < 5)
             {
