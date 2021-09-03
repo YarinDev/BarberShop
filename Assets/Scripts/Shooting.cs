@@ -20,9 +20,6 @@ public class Shooting : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-        }
-
-        {
             RaycastHit hit;
             if (Physics.Raycast(aCamera.transform.position, aCamera.transform.forward, out hit))
             {
