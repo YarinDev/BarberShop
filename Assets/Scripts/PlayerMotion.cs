@@ -50,11 +50,12 @@ public class PlayerMotion : MonoBehaviour
             if (!stepSound.isPlaying)
                 stepSound.Play();
             //turn on npc
+            Animator animator = npc.GetComponent<Animator>();
+            animator.SetInteger("state", 1);
             NavMeshAgent agent = npc.GetComponent<NavMeshAgent>();
             agent.enabled = true; //this starts npc motion
             //and let npc walk through
-            Animator animator = npc.GetComponent<Animator>();
-            animator.SetInteger("state", 1);
+            
         }
         // simple motion
 //        transform.Translate(new Vector3(dx, dy, dz));
