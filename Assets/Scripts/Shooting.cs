@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Shooting : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class Shooting : MonoBehaviour
     public GameObject Knight;
     private Animator animator;
     private static int numHits;
+    private NavMeshAgent agent;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +24,7 @@ public class Shooting : MonoBehaviour
         numHits = 0;
         line = GetComponent<LineRenderer>();
         animator = Knight.GetComponent<Animator>();
+        agent = Knight.GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
@@ -42,15 +45,14 @@ public class Shooting : MonoBehaviour
                 if (hit.transform.gameObject == Knight)
                 {
                     numHits++;
-                    if (numHits<3)
+                    if (numHits < 3) // npc can fall and get up again
                     {
                         StartCoroutine(KnightFallAndGettingUp());
-
                     }
-                    else
+                    else //npc is dying
                     {
                         animator.SetInteger("state", 4); //dying
-
+                        agent.enabled = false;
                     }
                 }
             }
@@ -59,11 +61,26 @@ public class Shooting : MonoBehaviour
 
     IEnumerator KnightFallAndGettingUp()
     {
+        //check what state was before falling
+        int st = animator.GetInteger("state");
+        
+        //stop moving towards the target
+        if (st == 1) //walking
+            agent.enabled = false;
+        
         animator.SetInteger("state", 2); //fall back
+
         yield return new WaitForSeconds(2f); // delay
         animator.SetInteger("state", 3); //getting up
+        yield return new WaitForSeconds(1f); // delay
+        //renew motion
+        if (st == 1) //it was walking
+            agent.enabled = true;
+        
+
+        animator.SetInteger("state", st); //previuos state
     }
-    
+
 
     IEnumerator ShowFlash()
     {

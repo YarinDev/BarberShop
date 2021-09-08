@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+
 
 public class PlayerMotion : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class PlayerMotion : MonoBehaviour
     public GameObject camera; // publics must be initialized in Unity
 
     private AudioSource stepSound;
+    public GameObject npc;
 
     // Start is called before the first frame update
     void Start()
@@ -41,11 +44,17 @@ public class PlayerMotion : MonoBehaviour
         Vector3 motion = new Vector3(dx, dy, dz); // in Local coordinates
         motion = transform.TransformDirection(motion); // change to Global coordinates
         controller.Move(motion); //in Global coordinates
-
+        //if  was A/W/S/D key was pressed
         if (dz < 0 || dz > 0 || dx < 0 || dx > 0)
         {
             if (!stepSound.isPlaying)
                 stepSound.Play();
+            //turn on npc
+            NavMeshAgent agent = npc.GetComponent<NavMeshAgent>();
+            agent.enabled = true; //this starts npc motion
+            //and let npc walk through
+            Animator animator = npc.GetComponent<Animator>();
+            animator.SetInteger("state", 1);
         }
         // simple motion
 //        transform.Translate(new Vector3(dx, dy, dz));
