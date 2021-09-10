@@ -14,6 +14,8 @@ public class PlayerMotion : MonoBehaviour
 
     private AudioSource stepSound;
     public GameObject npc;
+    private Animator animator;
+    private NavMeshAgent agent;
 
     // Start is called before the first frame update
     void Start()
@@ -50,12 +52,19 @@ public class PlayerMotion : MonoBehaviour
             if (!stepSound.isPlaying)
                 stepSound.Play();
             //turn on npc
-            Animator animator = npc.GetComponent<Animator>();
+            animator = npc.GetComponent<Animator>();
             animator.SetInteger("state", 1);
-            NavMeshAgent agent = npc.GetComponent<NavMeshAgent>();
+            agent = npc.GetComponent<NavMeshAgent>();
+            StartCoroutine(npcActivation());
+        }
+
+        //bob starts walk after standing
+        IEnumerator npcActivation()
+        {
+            yield return new WaitForSeconds(2f); // delay
+            animator.SetInteger("state", 2);
             agent.enabled = true; //this starts npc motion
             //and let npc walk through
-            
         }
         // simple motion
 //        transform.Translate(new Vector3(dx, dy, dz));
