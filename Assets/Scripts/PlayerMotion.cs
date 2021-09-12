@@ -13,9 +13,9 @@ public class PlayerMotion : MonoBehaviour
     public GameObject camera; // publics must be initialized in Unity
 
     private AudioSource stepSound;
-    public GameObject npc;
-    private Animator animator;
-    private NavMeshAgent agent;
+    public GameObject npc,npc2;
+    private Animator animator,animator2;
+    private NavMeshAgent agent,agent2;
 
     // Start is called before the first frame update
     void Start()
@@ -53,8 +53,11 @@ public class PlayerMotion : MonoBehaviour
                 stepSound.Play();
             //turn on npc
             animator = npc.GetComponent<Animator>();
+            animator2 = npc2.GetComponent<Animator>();
             animator.SetInteger("state", 1);
+            animator2.SetInteger("state", 1);
             agent = npc.GetComponent<NavMeshAgent>();
+            agent2 = npc2.GetComponent<NavMeshAgent>();
             StartCoroutine(npcActivation());
         }
 
@@ -64,6 +67,7 @@ public class PlayerMotion : MonoBehaviour
             yield return new WaitForSeconds(2f); // delay
             animator.SetInteger("state", 2);
             agent.enabled = true; //this starts npc motion
+            agent2.enabled = true; //this starts npc2 motion
             //and let npc walk through
         }
         // simple motion

@@ -37,14 +37,16 @@ public class BobMotion : MonoBehaviour
                 {
                     if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
                     {
-                        animator.SetInteger("state", 5);
+                     //   animator.SetInteger("state", 5);
                         StartCoroutine(npcSit());
                         //left chair location fot target
-                        player.transform.SetPositionAndRotation(new Vector3(35.3f, 1.1f, -43.49f),
-                         new UnityEngine.Quaternion(0, 90, 0, 0));
-                     //  StartCoroutine(delayBeforeStand());
-                            // StartCoroutine(delayBeforeWalk());
-                       
+                        /*player.transform.SetPositionAndRotation(new Vector3(35.3f, 1.1f, -43.49f),
+                            new UnityEngine.Quaternion(0, 90, 0, 0));*/
+                        agent.transform.SetPositionAndRotation(new Vector3(35.78f, 1.1f, -43.49f),
+                             Quaternion.Euler(new Vector3(0,90,0)));
+                        //  StartCoroutine(delayBeforeStand());
+                        // StartCoroutine(delayBeforeWalk());
+
                     }
                 }
             }
@@ -52,7 +54,7 @@ public class BobMotion : MonoBehaviour
 
         IEnumerator npcSit()
         {
-            yield return new WaitForSeconds(2f); // delay
+            yield return new WaitForSeconds(0f); // delay
             animator.SetInteger("state", 3);
         }
         IEnumerator delayBeforeStand()
