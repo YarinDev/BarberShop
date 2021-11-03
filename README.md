@@ -1,4 +1,3 @@
 # BarberShop
-A unity project who simulates barbershop
+A Unity Project who simulates barbershop with clients npc's
 
-ok
